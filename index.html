@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Editor</title>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <!--
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    -->
+
+    <link rel="stylesheet" href="assets/reset.css">
+    <link rel="stylesheet" href="assets/main.css">
+</head>
+<body>
+    <div class="top-menu">
+        <div class="top-menu-left"><img src="image/logonew.png" class="logopicture">&nbsp;Aurora Editor Version 1.00beta</div>
+        <div class="top-menu-right"><img src="image/setting.svg" class="settingpicture"></div>
+    </div>
+    <div class="setting-menu">
+        <div class="setting-menu-textsetting">
+            <div class="setting-button">Plain text</div>&nbsp;
+            UTF-8&nbsp;
+            <div class="setting-button">エディタの設定</div>
+        </div>
+        <div class="setting-menu-rowcols">行:<span id="umenu-row">0</span>&nbsp;列:<span id="umenu-cols">0</span></div>
+        <div class="setting-menu-clock">
+            <span id="hh">00</span>:<span id="mi">00</span>:<span id="ss">00</span>&nbsp;<span id="yyyy">0000</span>/<span id="mm">00</span>/<span id="dd">00</span>
+        </div>
+        
+    </div>
+    <div class="window-editor">
+        <div id="editor" class="editor"></div>
+        <div id="hyoujiMarkdown"></div>
+    </div>
+    
+    
+
+    <!-- SCRIPT -->
+    <script src='https://cdn.jsdelivr.net/gh/rsms/markdown-wasm@v1.1.2/dist/markdown.js'></script>
+    <script src="assets/ace/ace.js"></script>    
+    <script src="assets/ace/ext-language_tools.js"></script>
+    
+    <script src="assets/rowcols.js"></script>
+    <script src="assets/clock.js"></script>
+    
+    <script>
+        var editor = ace.edit("editor");
+        editor.$blockScrolling = Infinity;
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
+        editor.setTheme("ace/theme/ambiance");
+        editor.getSession().setMode("ace/mode/markdown");
+        editor.setFontSize(12);
+
+        editor.session.on('change', function(delta) {
+            // delta.start, delta.end, delta.lines, delta.action
+            var rowcols = editor.selection.getCursor();
+            document.getElementById('umenu-row').innerHTML = rowcols.row;
+            document.getElementById('umenu-cols').innerHTML = rowcols.column;
+        });
+    </script>
+
+
+    
+
+
+
+
+
+</body>
+</html>
